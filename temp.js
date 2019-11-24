@@ -1,4 +1,4 @@
-var myAlbums = `[
+var myAlbums2 = `[
   {
     "year": 1956,
     "artist": "Harry Belafonte",

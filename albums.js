@@ -1,6 +1,26 @@
-var albums = JSON.parse(myAlbums);
+var albums = JSON.parse(myAlbums2);
+
+let myRequest = new Request("albums.json")
+fetch(myRequest)
+    .then(function(resp)
+         {
+        return resp.json();
+    })
+    .then(function(data){
+        var jsonAlbum = data;
+        console.log(jsonAlbum);
+        
+    })
+    .catch(function(error)
+          {
+    console.log(error);
+});
+    
+
+
+
 //Use code from movie example as help to fill in a table 
-window.onload = function() {
+window.addEventListener ("load", function() {
   // get a reference to the movies table in the DOM
   var table = document.getElementById("hitsTable");
 
@@ -35,9 +55,39 @@ window.onload = function() {
     // create a new row
       
   
-};
 }
+});
 
+
+
+// The biggest problem I had was making two things load to the webpage. First I tried creating a function for adding the years to the dropdownlist and use onload in the body of the html file. That only made the years appear and the table disappear. Then I changed the first function from window.onload to a regular function and made the html load both the dropdown function and the table function load as onload in body. That did not work either only one of them would load. Lastly I discovered addEventListener which did the trick.
+
+
+//Make a function for year selections so we dont have to write it all 
+window.addEventListener("load", function()
+{
+
+        var option = ""; //Create empty string to fill in later with optiong tags and years
+        option += "<option value =All>All</option>"; 
+        for(var albumID2 = 0; albumID2<albums.length;albumID2++) //Use albumID2 since I dont want albumID and albumID2 to clash 
+        {
+            option += "<option value ='"+albums[albumID2].year+"'>"+albums[albumID2].year+"</option>";  // Fill it with all possible years  
+        }
+        
+        document.getElementById("selectYear").innerHTML = option;
+    });
+
+window.addEventListener("load", function()
+                       {
+ var option = ""; //Create empty string to fill in later with optiong tags and years
+        option += "<option value =All>All</option>"; 
+        for(var albumID3 = 0; albumID3<albums.length;albumID3++) //Use albumID2 since I dont want albumID and albumID2 to clash 
+        {
+            option += "<option value ='"+albums[albumID3].artist+"'>"+albums[albumID3].artist+"</option>";  // Fill it with all possible years  
+        }
+        
+        document.getElementById("selectArtist").innerHTML = option;
+    });
 
 //FIRST VERSION OF FILTER FUNCTION BEFORE MAKING BOTH DROPDOWNS WORK TOGETHER, KEPT IN FOR DOCUMENTATION, NOT USED 
 //Function for filtering table take in two variables so we can use this function for both dropdown lists 
@@ -98,7 +148,7 @@ function filterFunction2()
         tdCountry = tr[i].getElementsByTagName("td")[2];  //Get the right column of the row nationality or year
         tdYear = tr[i].getElementsByTagName("td")[0];
 
-        //USE A BUNCH OF CONDITIONAL IF ELSE STATEMENTS TO MAKE THE DROPDOWN LISTS FUNCTION TOGETHER, PROBABLY A MORE PRETTIER WAY TO MAKE IT WORK BUT THIS ONE WORKS SO THAT IS GOOD ENOUGH FOR ME.
+        //USE A BUNCH OF CONDITIONAL IF ELSE STATEMENTS TO MAKE THE DROPDOWN LISTS FUNCTION TOGETHER, PROBABLY A MORE PRETTIER WAY TO MAKE IT BUT SINCE THERE ARE NOT TOO MANY CASES I DECIDED TO DO IT THIS WAY.
         if(tdYear)
         {
              
