@@ -1,9 +1,4 @@
-//var albums = JSON.parse(myAlbums2);
 
-
-
-
-//console.log(jsonAlbum);
 
 
 async function getData(){
@@ -21,7 +16,7 @@ window.addEventListener ("load", function() {
     var albums = result;
     popTable(albums);
     populateYear(albums);
-})
+  })
 });
                          
 function popTable(albums)
@@ -49,6 +44,7 @@ function popTable(albums)
     {
         album.nationality ="Other";
     }
+      
     addCell(album.year);
     addCell(album.artist);
     addCell(album.nationality);
@@ -65,7 +61,9 @@ function popTable(albums)
 
 
 
-// The biggest problem I had was making two things load to the webpage. First I tried creating a function for adding the years to the dropdownlist and use onload in the body of the html file. That only made the years appear and the table disappear. Then I changed the first function from window.onload to a regular function and made the html load both the dropdown function and the table function load as onload in body. That did not work either only one of them would load. Lastly I discovered addEventListener which did the trick.
+// The biggest problem I had was making two things load to the webpage. First I tried creating a function for adding the years to the dropdownlist and use onload in the body of the html file. That only made the years appear and the table disappear. Then I changed the first function from window.onload to a regular function and made the html load both the dropdown function and the table function load as onload in body. That did not work either only one of them would load. Lastly I discovered addEventListener which did the trick
+
+// Finally realised that it is better to have just one addEventListener function and then call the other functions inside the addEventListener function.
 
 
 //Make a function for year selections so we dont have to write it all 
@@ -99,7 +97,7 @@ function filterFunction(var1,var2)
   //  console.log(test.innerHTML); Debugging
     
     //Check every row of the table and see if they match with selected value from dropdown list if they do not we hide it
-    for(var i = 0;i<tr.length; i++)
+    for(let i = 0;i<tr.length; i++)
     {
         td = tr[i].getElementsByTagName("td")[var2];  //Get the right column of the row nationality or year
        // console.log(td.innerHTML);  Debugging
@@ -139,7 +137,7 @@ function filterFunction2()
     
     
     //Check every row of the table and see if they match with selected value from dropdown list if they do not we hide it
-    for(var i = 0;i<tr.length; i++)
+    for(let i = 0;i<tr.length; i++)
     {
         tdCountry = tr[i].getElementsByTagName("td")[2];  //Get the right column of the row nationality or year
         tdYear = tr[i].getElementsByTagName("td")[0];
