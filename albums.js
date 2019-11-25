@@ -1,26 +1,31 @@
-var albums = JSON.parse(myAlbums2);
-
-let myRequest = new Request("albums.json")
-fetch(myRequest)
-    .then(function(resp)
-         {
-        return resp.json();
-    })
-    .then(function(data){
-        var jsonAlbum = data;
-        console.log(jsonAlbum);
-        
-    })
-    .catch(function(error)
-          {
-    console.log(error);
-});
-    
+//var albums = JSON.parse(myAlbums2);
 
 
 
-//Use code from movie example as help to fill in a table 
+
+//console.log(jsonAlbum);
+
+
+async function getData(){
+    let result = await fetch("albums.json");
+    let jsonResult = await result.json();
+    console.log(jsonResult);
+    return jsonResult;
+}
+
+
 window.addEventListener ("load", function() {
+  getData()
+    .then(result => {
+    console.log(result);
+    var albums = result;
+    popTable(albums);
+    populateYear(albums);
+})
+});
+                         
+function popTable(albums)
+{
   // get a reference to the movies table in the DOM
   var table = document.getElementById("hitsTable");
 
@@ -54,9 +59,9 @@ window.addEventListener ("load", function() {
     
     // create a new row
       
-  
+  }
 }
-});
+
 
 
 
@@ -64,10 +69,11 @@ window.addEventListener ("load", function() {
 
 
 //Make a function for year selections so we dont have to write it all 
-window.addEventListener("load", function()
-{
 
-        var option = ""; //Create empty string to fill in later with optiong tags and years
+function populateYear(albums)
+{
+    
+       var option = ""; //Create empty string to fill in later with optiong tags and years
         option += "<option value =All>All</option>"; 
         for(var albumID2 = 0; albumID2<albums.length;albumID2++) //Use albumID2 since I dont want albumID and albumID2 to clash 
         {
@@ -75,19 +81,9 @@ window.addEventListener("load", function()
         }
         
         document.getElementById("selectYear").innerHTML = option;
-    });
+}
 
-window.addEventListener("load", function()
-                       {
- var option = ""; //Create empty string to fill in later with optiong tags and years
-        option += "<option value =All>All</option>"; 
-        for(var albumID3 = 0; albumID3<albums.length;albumID3++) //Use albumID2 since I dont want albumID and albumID2 to clash 
-        {
-            option += "<option value ='"+albums[albumID3].artist+"'>"+albums[albumID3].artist+"</option>";  // Fill it with all possible years  
-        }
-        
-        document.getElementById("selectArtist").innerHTML = option;
-    });
+
 
 //FIRST VERSION OF FILTER FUNCTION BEFORE MAKING BOTH DROPDOWNS WORK TOGETHER, KEPT IN FOR DOCUMENTATION, NOT USED 
 //Function for filtering table take in two variables so we can use this function for both dropdown lists 
