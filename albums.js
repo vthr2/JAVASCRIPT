@@ -1,6 +1,4 @@
 
-
-
 async function getData(){
     let result = await fetch("albums.json");
     let jsonResult = await result.json();
@@ -25,7 +23,7 @@ function popTable(albums)
   var table = document.getElementById("hitsTable");
 
   // for each object in the movies array, add a row to the table
-  for(var albumID = 0; albumID < albums.length; albumID++) {
+  for(let albumID = 0; albumID < albums.length; albumID++) {
 
     // get a reference to the current movie
       
@@ -73,9 +71,9 @@ function populateYear(albums)
     
        var option = ""; //Create empty string to fill in later with optiong tags and years
         option += "<option value =All>All</option>"; 
-        for(var albumID2 = 0; albumID2<albums.length;albumID2++) //Use albumID2 since I dont want albumID and albumID2 to clash 
+        for(let albumId = 0; albumId<albums.length;albumId++) //Use albumID2 since I dont want albumID and albumID2 to clash 
         {
-            option += "<option value ='"+albums[albumID2].year+"'>"+albums[albumID2].year+"</option>";  // Fill it with all possible years  
+            option += "<option value ='"+albums[albumId].year+"'>"+albums[albumId].year+"</option>";  // Fill it with all possible years  
         }
         
         document.getElementById("selectYear").innerHTML = option;
