@@ -1,4 +1,5 @@
 //Function to load json data using sample code provided in lectures 
+
 async function getData() {
     let result = await fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1",
     {
@@ -9,34 +10,44 @@ async function getData() {
     return data;
 }
 
+getData()
+.then(result => 
+{
+    console.log(result);
+    var yaks = result;
+    // var temp =JSON.parse(yaks);
+    console.log(yaks);
+    popTable(yaks);
+})
+.catch(error => {
+    console.error('Error:', error);
+})
+
 async function postData() {
   // Default options are marked with *
-  const response = await fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+  let response = await fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body:
+      {
+          content: "testtesttest"
+      }
   });
-  return await response.json(); // parses JSON response into native JavaScript objects
+  let postedData =  await response.json(); 
+  console.log(postedData);
+  return postedData;
 }
 
-postData( { content: "Testing1,2,3" })
-  .then((data) => {
+postData()
+  .then((response) => {
     console.log(data); // JSON data parsed by `response.json()` call
-  });
-postData();
+  })
+  .catch(error => {
+    console.error('Error:', error);
+  })
 
-window.addEventListener ("load", function() {
-  getData()
-    .then(result => 
-    {
-        console.log(result);
-        var yaks = result;
-       // var temp =JSON.parse(yaks);
-        console.log(yaks);
-        popTable(yaks);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    })
-});
 
 
 
@@ -77,6 +88,11 @@ function popTable(myYaks)
     table.appendChild(tr);
   }
 }
+
+
+
+
+
 
 
 
