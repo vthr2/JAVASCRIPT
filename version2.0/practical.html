@@ -1,0 +1,30 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+  <script src="practical.js"></script>
+ <link rel="stylesheet" href="cssfile.css">
+</head>
+
+<body>
+    <input type="text" id="myInput" onkeyup="filterFunction()" placeholder="Search for names">
+    
+    <table id="yakTable">
+    <tr>
+      <th>Yak</th>
+      <th>IDs</th>
+      <th>Votes</th>
+      <th>Nickname</th>
+      <th>Delete</th>
+
+        
+    </tr>
+  </table>
+    
+    <button type="button", onclick = "postYak()">Post Yak</button>
+    <button type="button", onclick = "addNickname()">Add Nickname</button>
+    <p id="myNickname"></p>
+</body>
+</html>
