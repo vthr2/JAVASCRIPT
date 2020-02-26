@@ -3,18 +3,22 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <script src="practical.js"></script>4
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.7.1.min.js"></script>
+          <script src="practical.js"></script>
  <link rel="stylesheet" href="cssfile.css">
 </head>
 
 <body>
-    
-    <table id="yakTable">
-    <tr>
-      <th>Yak</th>
-      <th>IDs</th>
-      <th>Votes</th>
-    </tr>
-  </table>
+    <div id="myNickname"></div>
+
+    <input type="text" id="nameInput" onkeyup="filterFunction('nameInput','0')" placeholder="Search for Yak">
+    <input type="text" id="myInput" onkeyup="filterFunction('myInput','3')" placeholder="Search for Nicknames">
+    <button type="button", onclick = "postYak()">Post Yak</button>
+    <button type="button", onclick = "addNickname()">Add Nickname</button>
+    <button type="button", onclick = "getSortedDataVote()">Sort Votes</button>
+    <button type="button", onclick = "getSortedDataTime()">Sort TIMEEE</button>
+
+   
+
 </body>
 </html>

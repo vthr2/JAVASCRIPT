@@ -1,72 +1,401 @@
 //Function to load json data using sample code provided in lectures 
 
-async function getData() {
-    let result = await fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1",
-    {
-        method: 'GET'
-    });
-    let data = await result.json();
-    console.log(data);
-    return data;
+
+
+
+
+
+//It was hard to find a way to populate the table while also adding a delete option only for yaks posted by myself, First I tried using a seperacte function which gets my nickname but I could not find a way to make it while also populating the table. I wanted to both get all the yaks and my only my nickname and use those both in the same function to populate the table and adding delete option for my nickname. I figured it could be possible to use a fetch call inside a fetch call to access both of them using the get user API and get yaks API requests.
+
+
+
+
+
+
+/*
+async function getAsyncData(){
+   let result = await fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'GET', 
+  })
+    let dat = await result.json();
+    console.log(dat);
+    return dat;
 }
 
-getData()
-.then(result => 
-{
-    console.log(result);
-    var yaks = result;
-    // var temp =JSON.parse(yaks);
-    console.log(yaks);
-    popTable(yaks);
-})
-.catch(error => {
-    console.error('Error:', error);
-})
+function getData() {
+    clearBody();
+  getAsyncData()
+  .then(dat => {
+        console.log(dat);
+        let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/user?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", 
+        {
+        method: 'GET'
+        }).then(response =>
+        {
+        //console.log(response);
+        return response.json();
+        })
+        .then(data => {
+        //console.log(data.userNick);  
+        popTable(dat,data.userNick);
+        })
+       .catch(error =>{
+           console.log(error+"error");
+       })       
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err");
+  })
+}
+*/
 
-async function postData() {
+//reactiveData();
+
+//Here we get the data from the JSON. The biggest problem I had was finding a way to acces that data. Finally I realised I could use my functions  inside the .then call using the JSON data that was fetched in the .then call
+
+
+
+function getData() {
+    clearBody();
+    getName();
+    let result = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'GET', 
+  }).then(res =>{
+      console.log(res);
+      return res.json();
+  })
+  .then(dat => {
+        console.log(dat);
+        let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/user?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", 
+        {
+        method: 'GET'
+        }).then(response =>
+        {
+        //console.log(response);
+        return response.json();
+        })
+        .then(data => {
+        //console.log(data.userNick);  
+        popTable(dat,data.userNick);
+        })
+       .catch(error =>{
+           console.log(error+"error");
+       })       
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err");
+  })
+  
+      //clearBody();
+}
+
+
+
+function getSortedDataVote() {
+    clearBody();
+    let result = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'GET', 
+  }).then(res =>{
+      console.log(res);
+      return res.json();
+  })
+  .then(dat => {
+        console.log(dat);
+        dat.sort(function(a, b) {
+            return parseFloat(a.votes) - parseFloat(b.votes);
+        });
+        let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/user?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", 
+        {
+        method: 'GET'
+        }).then(response =>
+        {
+        //console.log(response);
+        return response.json();
+        })
+        .then(data => {
+        //console.log(data.userNick);  
+        popTable(dat,data.userNick);
+        })
+       .catch(error =>{
+           console.log(error+"error");
+       })       
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err");
+  })
+  
+      //clearBody();
+}
+
+function getSortedDataTime() {
+    
+    clearBody();
+    let result = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'GET', 
+  }).then(res =>{
+      console.log(res);
+      return res.json();
+  })
+  .then(dat => {
+        console.log(dat);
+        dat.sort(function(a, b) {
+            return parseFloat(a.timestamp) - parseFloat(b.timestamp);
+        });
+        let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/user?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", 
+        {
+        method: 'GET'
+        }).then(response =>
+        {
+        //console.log(response);
+        return response.json();
+        })
+        .then(data => {
+        //console.log(data.userNick);  
+        popTable(dat,data.userNick);
+        })
+       .catch(error =>{
+           console.log(error+"error");
+       })       
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err");
+  })
+  
+      //clearBody();
+}
+
+
+
+
+
+//window.addEventListener ("load", function() {
+//  getData();
+//});
+//function updatePage() {
+//    $.getJSON('https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1', function(data) {
+//      clearBody();
+//       getData();    
+//    });
+//}
+
+
+//getAsyncData();
+
+getData();
+function postData(postedMessage) {
   // Default options are marked with *
-  let response = await fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+  let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
     method: 'POST', 
     headers: {
       'Content-Type': 'application/json'
     },
-    body:
+    body: JSON.stringify(
       {
-          content: "testtesttest"
-      }
-  });
-  let postedData =  await response.json(); 
-  console.log(postedData);
-  return postedData;
+       
+          content: postedMessage
+      })
+  }).then(response =>{
+      //console.log(response);
+         getData(); // On success we refresh data
+      return response.json();
+   
+  })
+  .catch(err=> 
+         {
+      console.log(err+ "err")
+  })
 }
 
-postData()
-  .then((response) => {
-    console.log(data); // JSON data parsed by `response.json()` call
-  })
-  .catch(error => {
-    console.error('Error:', error);
-  })
 
 
 
 
-function popTable(myYaks)
+function deleteData(deleteId)
 {
-    console.log(myYaks);
+  // Default options are marked with *
+  let res = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks/"+deleteId+"?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'DELETE'
+  }).then(res=>{
+      console.log(res);
+      getData(); 
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err");
+  })
+}
 
+setInterval(getData, 1000*60*5);
+
+
+function addNick(myNick)
+{
+    let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/user?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      {
+          "userNick": myNick
+      })
+  }).then(response =>{
+     console.log(response+ "test");
+      getData();
+      getName();
+      return response.json();
+  })
+  .catch(err=> 
+         {
+      console.log(err+ "err")
+  })
+}
+
+
+function voteUp(idOfVote)
+{
+    
+  // Default options are marked with 
+    
+ // let res = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks/"+idOfVote"/vote?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    let res = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks/"+idOfVote+"/vote?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      {
+          "direction": "up"
+      })
+  }).then(res=>{
+      console.log(res);
+       getData();   
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err")
+  })
+}
+
+function voteDown(idOfVote)
+{
+    
+  // Default options are marked with 
+    
+ // let res = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks/"+idOfVote"/vote?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    let res = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/yaks/"+idOfVote+"/vote?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'POST', 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(
+      {
+          "direction": "down"
+      })
+  }).then(res=>{
+        getData(); 
+      console.log(res);
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err")
+  })
+}
+
+
+
+
+function postYak()
+{
+    var postedData = window.prompt("Write your yak below");
+    postData(postedData);
+}
+
+
+function addNickname()
+{
+    var addNickname = window.prompt("Write your new nickname below");
+    addNick(addNickname);
+}
+
+function getName()
+{
+
+    let response = fetch("https://cs5003-api.host.cs.st-andrews.ac.uk/api/user?key=ae26c4ea-2ca8-4c01-83e5-e4d810950cf1", {
+    method: 'GET'
+    }).then(response =>{
+      console.log(response);
+      return response.json();
+  })
+  .then(dat => {
+    document.getElementById("myNickname").innerHTML = "Current nickname: " + dat.userNick;
+      console.log(dat.userNick);
+      return dat.userNick;
+  })
+  .catch(err=> 
+         {
+      console.log(err+"err")
+  })
+}
+
+function createTable()
+{
+            
+    var body = document.getElementsByTagName('body')[0];
+    var myTable = document.createElement("table");
+    body.appendChild(myTable);
+    myTable.id ="yakTable";
+    var tableBody = document.createElement('tbody');
+    myTable.appendChild(tableBody);
+    var tableRow = document.createElement("tr");
+    tableBody.appendChild(tableRow);
+    var tblHeader1 = document.createElement("th");
+    var tblHeader2 = document.createElement("th");
+    var tblHeader3 = document.createElement("th");
+    var tblHeader4 = document.createElement("th");
+    var tblHeader5 = document.createElement("th");
+    var tblHeader6 = document.createElement("th");
+    var tblHeader7 = document.createElement("th");
+    var tblHeader8 = document.createElement("th");
+  
+    
+    var createHeader = function(header,name)
+    {
+        var text = document.createTextNode(name);
+        header.appendChild(text);
+        tableRow.appendChild(header);
+    }
+    
+    createHeader(tblHeader1, "Yaks");
+    createHeader(tblHeader2, "IDs");
+    createHeader(tblHeader3, "Votes");
+    createHeader(tblHeader4, "Nicknames");
+    createHeader(tblHeader5, "Vote Up");
+     createHeader(tblHeader6,"Vote Down");
+    createHeader(tblHeader7, "Delete");
+    createHeader(tblHeader8, "Time of Post");
+    //console.log(myTable);
+}
+
+
+
+function popTable(myYaks,myNick)
+{
+    //console.log(myYaks);
+    
+    createTable();
+    
     var table = document.getElementById("yakTable");
-    console.log(table);
-
+    //console.log(table);
+    
   // loop through albums and add row with each entry
   for(let i = 0; i < myYaks.length; i++) 
   {
-
     var allYaks = myYaks[i]; //Store each yak
-    console.log(allYaks.id);
-   // document.write(allYaks.id);
-    //document.write(allYaks.votes);
-    //document.write(allYaks.content);
     var tr = document.createElement("tr");
     // for each property of the object, add a cell to the table row
     var addCell = function(text) 
@@ -78,15 +407,101 @@ function popTable(myYaks)
     };
           
     //Add year artist, nationality,album, wikipedia link for each entry as a row in the table
+    var upvote = function(name)
+    {
+        var td = document.createElement("td");
+ 
+        let input = document.createElement("input");
+        input.type = "button";
+        input.className = "button";
+        input.value = name;
+        input.id = allYaks.id //Same logic as in delete button, I first made the logic behind the delete button, can use same logic for vote button
+        input.onclick =  function() { voteUp(this.id);
+                                 
+                                    };
+        td.appendChild(input);
+        tr.appendChild(td);
+    }
+    
+    var downvote = function(name,yak)
+    {
+        var td = document.createElement("td");
+ 
+        let input = document.createElement("input");
+        input.type = "button";
+        input.className = "button";
+        input.value = name;
+        input.id = allYaks.id //Same logic as in delete button, I first made the logic behind the delete button, can use same logic for vote button
+        input.onclick =  function() { voteDown(this.id);
+                                        };
+        td.appendChild(input);
+        tr.appendChild(td);
+    }
+    
+    var deleteButton = function(name)
+    {
+        
+        var td = document.createElement("td");
+ 
+        var deleteInput = document.createElement("input");
+        deleteInput.type = "button";
+        deleteInput.className = "button";
+        deleteInput.value = name;
+        deleteInput.id = allYaks.id; 
+        //Make id of button same as id of yak so I can put the id in the deleteData easily. Took long time to figure out at first I tried to put allYaks.id Into deleteData function and it deleted all my entries. Realised it was because of the for loop all deleteData will be called each time for each id. Had to find some way to get the id in of yak in same column as the button. Figured that each button could have different id and then I realised I could just have the id the same as yakid and then call the delete function with the id of the button.
+        deleteInput.onclick = function() {deleteData(this.id);
+                                         }; //When button is pressed call delete data and put in the id of the button in the delete data 
+        //console.log("test"+ allYaks.id);
+        if(allYaks.userNick==myNick)
+            {
+            td.appendChild(deleteInput);
+            }
+        tr.appendChild(td);
+    }
     
     
     addCell(allYaks.content);
     addCell(allYaks.id);
     addCell(allYaks.votes);
-         
+    addCell(allYaks.userNick);
+    upvote("Up");
+    downvote("Down");
+    deleteButton("Delete");
+    addCell(allYaks.timestamp)
     // add the newly create row to the table
     table.appendChild(tr);
   }
+}
+
+
+
+function clearBody(){
+    var myTable = document.getElementById("yakTable");
+    if (myTable)
+    {
+        myTable.parentNode.removeChild(myTable);
+    }
+}
+
+function filterFunction(input, Column) {
+  // Help from https://www.w3schools.com/howto/howto_js_filter_table.asp
+  myInput = document.getElementById(input);
+  myFilter = myInput.value.toUpperCase();
+  myTable = document.getElementById("yakTable");
+  tableRow = myTable.getElementsByTagName("tr");
+  for (let i = 0; i < tableRow.length; i++) {
+    tableCol = tableRow[i].getElementsByTagName("td")[Column];  //Get nickname column
+    if (tableCol) {
+      myText= tableCol.textContent || tableCol.innerText;
+      myTextFixed = myText.toUpperCase();
+      if (myTextFixed.indexOf(myFilter) > -1) {
+        tableRow[i].style.display = "";
+      } else {
+        tableRow[i].style.display = "none";
+      }
+    }
+  }
+
 }
 
 
@@ -95,5 +510,11 @@ function popTable(myYaks)
 
 
 
-
+function clearBox(input)
+{
+    var myFilter = document.getElementById(input);
+    var myFilter2 = myFilter.value;
+    console.log(myFilter);
+   // myFilter.removeAttribute(myFilter);
+}
 

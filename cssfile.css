@@ -93,6 +93,25 @@ copyright {
 	text-align: right;
 }
 
+table {
+  border-collapse: collapse;
+}
+
+table, th, td {
+  border: 1px solid black;
+}
+
+th
+{
+    background-color: darkgreen;
+    color: white;
+}
+div.relative {
+  position: relative;
+  width: 400px;
+  height: 200px;
+  border: 3px solid #73AD21;
+}
 .info {
 	border-top: thin solid #4F81BD;
 	padding: 16pt;
